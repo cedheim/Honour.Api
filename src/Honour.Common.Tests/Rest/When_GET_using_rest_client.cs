@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace Honour.Common.Tests.Rest
 {
-    public class When_GET_using_rest_client
+    public class WhenGetUsingRestClient
     {
         private IRestClient _client;
         private PostReadModel _result;
@@ -15,13 +15,18 @@ namespace Honour.Common.Tests.Rest
         public async Task OneTimeSetUp()
         {
             this._client = new RestClient();
-            this._result = await this._client.GetAsync<PostReadModel>(new Uri("https://jsonplaceholder.typicode.com/posts/1"));
+            this._result = await this._client.GetAsync<PostReadModel>(new Uri(Data.JsonPlaceHolderPostsUri));
         }
 
         [Test]
-        public void Should_have_returned_a_model()
+        public void ShouldHaveReturnedAResult()
         {
             Assert.IsNotNull(this._result);
+        }
+
+        private static class Data
+        {
+            public const string JsonPlaceHolderPostsUri = "https://jsonplaceholder.typicode.com/posts/1";
         }
     }
 }

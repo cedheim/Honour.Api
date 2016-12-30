@@ -2,6 +2,10 @@
   "version": "1.0.0-*",
   "testRunner": "nunit",
 
+  "buildOptions": {
+    "debugType": "portable"
+  },
+
   "dependencies": {
     "Microsoft.NETCore.App": {
       "type": "platform",
