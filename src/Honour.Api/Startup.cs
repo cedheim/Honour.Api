@@ -40,6 +40,8 @@ namespace Honour.Api
         // This method gets called by the runtime. Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
             services.Configure<TwitchSettings>(Configuration.GetSection("Twitch"));
@@ -60,20 +62,17 @@ namespace Honour.Api
 
             app.UseApplicationInsightsExceptionTelemetry();
 
+            if (env.IsDevelopment())
+            {
+                app.UseCors(builder => builder.AllowAnyOrigin());
+            }
+            else
+            {
+                app.UseCors(builder => builder.WithOrigins("http://www.honourforever.com").AllowAnyHeader());
+            }
+            
+
             app.UseMvc();
-        }
-
-        public void ConfigureAssemblies()
-        {
-
-            //// load all assemblies in the executing directory, which aren't yet loaded into the domain.
-            //var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
-            //var loadedPaths = loadedAssemblies.Where(a => !a.IsDynamic).Select(a => a.Location).ToArray();
-
-            //// TODO: An hardcoded string "ncg" to filter only custom assemblies, necessary?
-            //var referencedPaths = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll").Where(f => Path.GetFileName(f).StartsWith("ncg", StringComparison.InvariantCultureIgnoreCase));
-            //var toLoad = referencedPaths.Where(r => !loadedPaths.Contains(r, StringComparer.InvariantCultureIgnoreCase)).ToList();
-            //toLoad.ForEach(path => loadedAssemblies.Add(AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(path))));
         }
     }
 }
