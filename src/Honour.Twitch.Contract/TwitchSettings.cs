@@ -2,7 +2,8 @@
 {
     public class TwitchSettings
     {
-        public string Channel { get; set; }
+        public string Channel { get; set; } 
+        public string Hosts { get; set; }
         public string ClientId { get; set; }
         public string Accept { get; set; }
     }

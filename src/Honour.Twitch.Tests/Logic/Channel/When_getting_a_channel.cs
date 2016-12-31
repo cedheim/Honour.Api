@@ -5,6 +5,8 @@ using FakeItEasy;
 using Honour.Common.Rest;
 using Honour.Twitch.Contract.Channel;
 using Honour.Twitch.Domain.Channel;
+using Honour.Twitch.Mocks;
+using Honour.Twitch.Mocks.Logic;
 using Honour.Twitch.Mocks.Logic.Channel;
 using NUnit.Framework;
 

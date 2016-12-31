@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -23,9 +24,33 @@ namespace Honour.Common.Rest
             using (var client = new HttpClient())
             {
                 ConfigureHttpClient(client, configuration);
+                HttpResponseMessage result;
+                string message;
 
-                var result = await client.GetAsync(uri, cancellationToken);
-                return Newtonsoft.Json.JsonConvert.DeserializeObject<TResult>(await result.Content.ReadAsStringAsync());
+                try
+                {
+                    result = await client.GetAsync(uri, cancellationToken);
+                    message = await result.Content.ReadAsStringAsync();
+                }
+                catch (Exception e)
+                {
+                    throw new RestException("An error occured during remote call", e);
+                }
+                
+                if ((int)result.StatusCode >= 400 && (int)result.StatusCode < 500)
+                {
+                    throw new RestBadRequestException(result.StatusCode, message);
+                }
+                if ((int) result.StatusCode >= 500)
+                {
+                    throw new RestServerSideException(result.StatusCode, message);
+                }
+                if (result.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new RestHttpStatusException(result.StatusCode, message);
+                }
+
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<TResult>(message);
             }
         }
 

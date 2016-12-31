@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Honour.Twitch.Contract.Channel;
 using Honour.Twitch.Domain.Channel;
 using KellermanSoftware.CompareNetObjects;
 
-namespace Honour.Twitch.Mocks.Logic.Channel
+namespace Honour.Twitch.Mocks.Logic
 {
-    public static class ChannelComparisonExtensions
+    public static class ComparisonExtensions
     {
         public static bool CompareTo(this ChannelDomainModel domainModel, ChannelReadModel readModel)
         {

@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Honour.Common.Rest;
 using Honour.Twitch.Contract;
 using Honour.Twitch.Contract.Channel;
+using Honour.Twitch.Contract.Hosting;
 using Honour.Twitch.Logic.Channel;
+using Honour.Twitch.Logic.Hosting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -43,6 +45,7 @@ namespace Honour.Api
             services.Configure<TwitchSettings>(Configuration.GetSection("Twitch"));
             services.AddScoped<IRestClient, RestClient>();
             services.AddScoped<IChannelService, ChannelService>();
+            services.AddScoped<IHostingService, HostingService>();
 
             services.AddMvc();
         }
